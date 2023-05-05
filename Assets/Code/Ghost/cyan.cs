@@ -7,6 +7,7 @@ public class cyan:ghost{
         return node==target||node==forward1||node==forward2||node==forward3;
     }
 
+    //heuristic function for multi-targets
     protected override int Heuristic(Vector2 nodePosition){
         int dist=base.Heuristic(nodePosition),tem;
         if(forward1!=null){
@@ -41,6 +42,8 @@ public class cyan:ghost{
         }
     }
 
+    //aim at three nodes at pacman forward direction if exists
+    //if cyan already at one of those nodes, aim at closer node from pacman
     private void GetPacmanForwardNode(){
         node_control controller=target.GetComponent<node_control>();
         int forwardDirection=pacman.Direction;

@@ -18,6 +18,8 @@ public class pink : ghost{
                 int nextDir;
                 float pacmanX=target.transform.position.x,pacmanY=target.transform.position.y;
                 float selfX=transform.position.x,selfY=transform.position.y;
+                //if pacman located at same vertical line or horizontal line from pink ghost and no obstacle
+                //spped up and chase pacman
                 if(Mathf.Abs(selfY-pacmanY)<=float.Epsilon){
                     nextDir=selfX<pacmanX? game_manager.RIGHT:game_manager.LEFT;
                     CheckObstacles(nextDir);
@@ -39,6 +41,7 @@ public class pink : ghost{
         }
     }
 
+    //check if there is any obstacle block the path (line of sight)
     private void CheckObstacles(in int nextDir){
         GameObject cur=curNode;
         node_control controller=cur.GetComponent<node_control>();

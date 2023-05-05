@@ -10,10 +10,11 @@ internal struct QueueNode{
     public QueueNode(GameObject node,int step,int id){
         this.node=node;
         this.step=step;
-        this.id=id;
+        this.id=id;//useless
     }
 }
 
+//used in A*
 internal class PriorityQueue{
     List<QueueNode> queue;
     List<int> value;
@@ -131,7 +132,8 @@ public abstract class ghost:entity,Ighost{
         speed=speedNormal;
         respawnTime=10*manager.frameRate;
     }
-
+    
+    //check whether the ghost can move in update()
     protected bool CanUpdate(){
         if(manager.gameActive==false){
             return false;
@@ -145,9 +147,11 @@ public abstract class ghost:entity,Ighost{
         return CanChangeNode();
     }
 
+    //general update() method, each ghost will have their own update() method
     protected virtual void Update(){
         int nextDirection=pacmanFound?AStar():BFS();
-        if(nextDirection<0){
+        //switch to A* if pacman is found for performance
+        if(nextDirection<0){//cant find pacman
             pacmanFound=false;
             direction=RandomMove();
         }
@@ -163,7 +167,7 @@ public abstract class ghost:entity,Ighost{
         curNode=curNode.GetComponent<node_control>().NodeNearby[direction];
     }
 
-
+    //check the if escape direction is valid
     protected virtual int Escape(int escapeDirection){
         if(curNode.GetComponent<node_control>().NodeNearby[escapeDirection]==null){
             return RandomMove();
@@ -353,12 +357,14 @@ public abstract class ghost:entity,Ighost{
         }
     }
 
+    //Manhattan distance
     protected virtual int Heuristic(Vector2 nodePosition){
         int dx=(int)Math.Round(Math.Abs(nodePosition.x-target.transform.position.x),0);
         int dy=(int)Math.Round(Math.Abs(nodePosition.y-target.transform.position.y),0);
         return dx+dy;
     }
 
+    //for determine the path finding is success
     protected virtual bool Reach(GameObject node){
         return node==target;
     }

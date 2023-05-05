@@ -43,7 +43,7 @@ public class orange : ghost{
         Return_:return dist;
     }
 
-
+    //movement pattern same at cyan and speed up when pacman is found by orange ghost
     protected override void Update(){
         if(CanUpdate()){
             if(pacmanFound&&!isEdible){
